@@ -1,9 +1,12 @@
 package org.eu.bk201sama.constant;
 
+import org.eu.bk201sama.event.EventFriendMsgEvent;
 import org.eu.bk201sama.event.EventGroupMsgEvent;
 
 public enum LovelyCatRequestEventEnum {
-    EventGroupMsg("EventGroupMsg",EventGroupMsgEvent.class);
+    EventGroupMsg("EventGroupMsg",EventGroupMsgEvent.class),
+    EventFriendMsg("EventFriendMsg", EventFriendMsgEvent.class)
+    ;
     private String name;
     private Class clazz;
 

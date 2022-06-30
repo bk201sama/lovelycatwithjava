@@ -1,4 +1,7 @@
 server:
   port: 10086
 iHttp:
-  url: http://127.0.0.1:10010
+  url: http://10.4.35.86:10010
+
+qingyunke:
+  url: http://api.qingyunke.com/api.php?key=free&appid=0&msg=
