@@ -27,4 +27,4 @@ hs_err_pid*
 /target/
 /catspringbootdemo.iml
 /lovelycatwithjava.iml
-/src/main/db/
+lovelycat.sqlite
