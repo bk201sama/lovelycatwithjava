@@ -1,23 +1,20 @@
 package org.eu.bk201sama.service;
 
-
-import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 
 @Service
-public class MessageAnswerService {
+public class ChatWithAIService {
     @Value("${qingyunke.url}")
-    private String url;
+    private String qingyunkeUrl;
 
-    public String getAnswer(String msg) {
-        String requestUrl = url + URLEncoder.encode(msg);
+    public String chatWithQingYunKe(String msg) {
+        String requestUrl = qingyunkeUrl + URLEncoder.encode(msg);
         String ret = HttpUtil.get(requestUrl);
         if(JSONUtil.isJson(ret)){
             JSONObject jsonRet = JSONUtil.parseObj(ret);

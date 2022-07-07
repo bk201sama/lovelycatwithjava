@@ -2,6 +2,7 @@ package org.eu.bk201sama.controller;
 
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.eu.bk201sama.core.ThreadValuePool;
 import org.eu.bk201sama.dto.LovelyCatMessageDTO;
 import org.eu.bk201sama.event.EventFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -44,7 +46,9 @@ public class LovelyCatMsgRecController {
     @PostMapping("/msg")
     @CrossOrigin(origins = "*")
     public void getMsgFromLovelyCat(@RequestBody LovelyCatMessageDTO message) {
-        log.info("rec:{}", JSONUtil.toJsonPrettyStr(message));
+        if(log.isDebugEnabled()){
+            log.debug("getMsgFromLovelyCat[LovelyCatMessageDTO]:rec:{}", JSONUtil.toJsonPrettyStr(message));
+        }
         Object eventObj = eventFactory.buildEventByLovelyCatMessageDTO(message);
         applicationEventPublisher.publishEvent(eventObj);
     }
