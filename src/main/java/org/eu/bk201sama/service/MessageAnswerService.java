@@ -1,4 +1,4 @@
-package org.eu.bk201sama.ai;
+package org.eu.bk201sama.service;
 
 
 import cn.hutool.core.util.URLUtil;
@@ -7,11 +7,12 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 
-@Component
-public class MessageAnswer {
+@Service
+public class MessageAnswerService {
     @Value("${qingyunke.url}")
     private String url;
 

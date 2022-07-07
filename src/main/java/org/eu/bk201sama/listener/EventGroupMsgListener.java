@@ -1,23 +1,20 @@
 package org.eu.bk201sama.listener;
 
-import cn.hutool.json.JSONUtil;
+import cn.hutool.http.HttpUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.eu.bk201sama.ai.MessageAnswer;
+import org.eu.bk201sama.service.MessageAnswerService;
 import org.eu.bk201sama.constant.LovelyCatResponseEventEnum;
 import org.eu.bk201sama.dto.LovelyCatMessageDTO;
 import org.eu.bk201sama.event.EventFriendMsgEvent;
-import org.eu.bk201sama.event.EventGroupMsgEvent;
-import org.eu.bk201sama.util.HttpUtils;
 import org.eu.bk201sama.vo.LovelyCatMessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.annotation.Resource;
 
 /**
  * 群消息事件
@@ -29,16 +26,16 @@ import java.io.IOException;
 public class EventGroupMsgListener implements ApplicationListener<EventFriendMsgEvent> {
     @Value("${iHttp.url}")
     private String url;
-    @Autowired
-    private MessageAnswer messageAnswer;
+    @Resource
+    private MessageAnswerService messageAnswerService;
     @Override
     public void onApplicationEvent(EventFriendMsgEvent eventFriendMsgEvent) {
         LovelyCatMessageDTO lovelyCatMessageDTO = eventFriendMsgEvent.getLovelyCatMessageDTO();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            HttpUtils.postJson(url,mapper.writeValueAsString(LovelyCatMessageVO.builder()
+            HttpUtil.post(url,mapper.writeValueAsString(LovelyCatMessageVO.builder()
                             .robotId(lovelyCatMessageDTO.getRobotId())
-                            .msg(messageAnswer.getAnswer(eventFriendMsgEvent.getLovelyCatMessageDTO().getMsg()))
+                            .msg(messageAnswerService.getAnswer(eventFriendMsgEvent.getLovelyCatMessageDTO().getMsg()))
                             .event(LovelyCatResponseEventEnum.SendTextMsg)
                             .toId(lovelyCatMessageDTO.getFromUserId())
                     .build()));

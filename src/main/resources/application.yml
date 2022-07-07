@@ -1,7 +1,17 @@
+spring:
+  application:
+    name: lovelycatwithjava
+  datasource:
+    url: jdbc:sqlite:lovelycat.sqlite
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
 server:
   port: 10086
 iHttp:
   url: http://10.4.35.86:10010
-
 qingyunke:
   url: http://api.qingyunke.com/api.php?key=free&appid=0&msg=
