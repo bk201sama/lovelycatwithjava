@@ -1,6 +1,10 @@
 package org.eu.bk201sama.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.bk201sama.core.ThreadValuePool;
 import org.eu.bk201sama.dto.LovelyCatMessageDTO;
@@ -26,7 +30,7 @@ public class LovelyCatMsgRecController {
      */
     @PostMapping("/demo")
     @CrossOrigin(origins = "*")
-    public HashMap<String,Object> demoTest(@RequestBody HashMap<String,String> message) {
+    public HashMap<String,Object> demoTest(@RequestBody HashMap<String,Object> message) {
         log.info("rec:{}", JSONUtil.toJsonPrettyStr(message));
         HashMap<String,Object> ret = new HashMap<>();
         ret.put( "success",true);
@@ -45,11 +49,20 @@ public class LovelyCatMsgRecController {
      */
     @PostMapping("/msg")
     @CrossOrigin(origins = "*")
-    public void getMsgFromLovelyCat(@RequestBody LovelyCatMessageDTO message) {
+    public void getMsgFromLovelyCat(@RequestBody HashMap<String,Object> message) {
         if(log.isDebugEnabled()){
             log.debug("getMsgFromLovelyCat[LovelyCatMessageDTO]:rec:{}", JSONUtil.toJsonPrettyStr(message));
         }
-        Object eventObj = eventFactory.buildEventByLovelyCatMessageDTO(message);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        LovelyCatMessageDTO lovelyCatMessageDTO = null;
+        try {
+            lovelyCatMessageDTO = mapper.readValue(mapper.writeValueAsString(message), LovelyCatMessageDTO.class);
+        } catch (JsonProcessingException e) {
+            log.error("getMsgFromLovelyCat:message parse error",e);
+        }
+        Object eventObj = eventFactory.buildEventByLovelyCatMessageDTO(lovelyCatMessageDTO);
         applicationEventPublisher.publishEvent(eventObj);
     }
 }

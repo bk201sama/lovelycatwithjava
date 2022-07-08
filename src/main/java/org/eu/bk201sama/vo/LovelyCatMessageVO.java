@@ -32,4 +32,6 @@ public class LovelyCatMessageVO {
     private String groupId;
     @JsonProperty("member_wxid")
     private String memberId;
+    @JsonProperty("member_name")
+    private String memberName;
 }
