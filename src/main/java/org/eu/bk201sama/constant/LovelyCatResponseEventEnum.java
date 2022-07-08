@@ -6,11 +6,11 @@ public enum LovelyCatResponseEventEnum {
     SendTextMsg("SendTextMsg",String.class),
     SendGroupMsgAndAt("SendGroupMsgAndAt", String.class);
     private String name;
-    private Class clazz;
+    private Class msgClass;
 
     LovelyCatResponseEventEnum(String name, Class clazz) {
         this.name = name;
-        this.clazz = clazz;
+        this.msgClass = clazz;
     }
     @Override
     public String toString() {

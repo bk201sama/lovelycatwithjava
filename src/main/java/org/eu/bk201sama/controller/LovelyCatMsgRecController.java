@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
-import org.eu.bk201sama.core.ThreadValuePool;
 import org.eu.bk201sama.dto.LovelyCatMessageDTO;
 import org.eu.bk201sama.event.EventFactory;
 import org.springframework.context.ApplicationEventPublisher;
