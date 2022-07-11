@@ -27,3 +27,6 @@ hs_err_pid*
 /target/
 /lovelycatwithjava.iml
 lovelycat.sqlite
+.DS_Store
+*.iml
+.vscode/*
