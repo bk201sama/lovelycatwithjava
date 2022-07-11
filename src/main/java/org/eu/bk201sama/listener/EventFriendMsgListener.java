@@ -7,6 +7,7 @@ import org.eu.bk201sama.constant.LovelyCatResponseEventEnum;
 import org.eu.bk201sama.dto.AnswerDTO;
 import org.eu.bk201sama.dto.LovelyCatMessageDTO;
 import org.eu.bk201sama.entity.User;
+import org.eu.bk201sama.event.EventFriendMsgEvent;
 import org.eu.bk201sama.event.EventGroupMsgEvent;
 import org.eu.bk201sama.service.ChatWithAIService;
 import org.eu.bk201sama.service.UserService;
@@ -25,7 +26,7 @@ import javax.annotation.Resource;
         matchIfMissing = false)
 @Component
 @Slf4j
-public class EventFriendMsgListener implements ApplicationListener<EventGroupMsgEvent> {
+public class EventFriendMsgListener implements ApplicationListener<EventFriendMsgEvent> {
     @Value("${iHttp.url}")
     private String url;
     @Resource
@@ -33,11 +34,11 @@ public class EventFriendMsgListener implements ApplicationListener<EventGroupMsg
     @Resource
     private ChatWithAIService chatWithAIService;
     @Override
-    public void onApplicationEvent(EventGroupMsgEvent eventGroupMsgEvent) {
-        LovelyCatMessageDTO lovelyCatMessageDTO = eventGroupMsgEvent.getLovelyCatMessageDTO();
+    public void onApplicationEvent(EventFriendMsgEvent eventFriendMsgEvent) {
+        LovelyCatMessageDTO lovelyCatMessageDTO = eventFriendMsgEvent.getLovelyCatMessageDTO();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            AnswerDTO answerDTO = this.getAnswer(eventGroupMsgEvent.getLovelyCatMessageDTO());
+            AnswerDTO answerDTO = this.getAnswer(eventFriendMsgEvent.getLovelyCatMessageDTO());
             HttpUtil.post(url,mapper.writeValueAsString(LovelyCatMessageVO.builder()
                             .robotId(lovelyCatMessageDTO.getRobotId())
                             .msg(answerDTO.getMsg())
@@ -45,7 +46,7 @@ public class EventFriendMsgListener implements ApplicationListener<EventGroupMsg
                             .toId(lovelyCatMessageDTO.getFromId())
                     .build()));
         } catch (Exception e) {
-            log.error("EventGroupMsgEvent:onApplicationEvent:error:{}",e);
+            log.error("eventFriendMsgEvent:onApplicationEvent:error:{}",e);
         }
     }
 
