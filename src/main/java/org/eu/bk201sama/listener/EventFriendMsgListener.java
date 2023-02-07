@@ -51,7 +51,7 @@ public class EventFriendMsgListener implements ApplicationListener<EventFriendMs
     }
 
     private AnswerDTO getAnswer(LovelyCatMessageDTO lovelyCatMessageDTO) {
-        String msg = chatWithAIService.chatWithQingYunKe(lovelyCatMessageDTO.getMsg());
+        String msg = chatWithAIService.chatWithchatGPT(lovelyCatMessageDTO.getMsg());
         return AnswerDTO.builder().msg(msg).msgType(LovelyCatResponseEventEnum.SendTextMsg).build();
     }
 }
